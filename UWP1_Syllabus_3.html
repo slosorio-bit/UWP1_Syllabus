@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UWP1: Introduction to Academic Literacies — Summer 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --ink: #1a1612;
+    --muted: #6b6258;
+    --accent: #c9622f;
+    --accent-light: #f0d5c5;
+    --gold: #d4a843;
+    --gold-light: #f5ecd4;
+    --green: #3a6b4a;
+    --green-light: #d6e8dc;
+    --section-border: #e0d8cc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Skip to content - accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: var(--accent);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0 0 8px 8px;
+    font-weight: 500;
+    z-index: 9999;
+    transition: top 0.2s;
+    text-decoration: none;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* ---- HEADER ---- */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,0.03) 18px,
+      rgba(255,255,255,0.03) 19px
+    );
+  }
+  .header-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header h1 span { color: var(--gold); font-style: italic; }
+  .header-sub {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.65);
+    margin-top: 0.5rem;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    background: var(--warm-white);
+    border-bottom: 2px solid var(--section-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    list-style: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  nav a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  nav a:hover, nav a:focus {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    outline: none;
+  }
+
+  /* ---- LAYOUT ---- */
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ---- SECTION ---- */
+  section {
+    margin-bottom: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--section-border);
+    animation: fadeUp 0.5s ease both;
+  }
+  section:last-child { border-bottom: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  h2 .icon { font-size: 1.1em; flex-shrink: 0; }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  p { margin-bottom: 0.9rem; color: var(--ink); }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--accent); }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  ul, ol { padding-left: 1.4rem; margin-bottom: 0.9rem; }
+  li { margin-bottom: 0.45rem; }
+
+  /* ---- INFO CARDS ---- */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .info-card {
+    background: var(--warm-white);
+    border: 1px solid var(--section-border);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+  }
+  .info-card .label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .info-card .value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .info-card a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .info-card a:hover { text-decoration: underline; }
+
+  /* ---- CALLOUT BOXES ---- */
+  .callout {
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin: 1.25rem 0;
+    border-left: 4px solid;
+  }
+  .callout-warning {
+    background: #fff5f0;
+    border-color: var(--accent);
+  }
+  .callout-warning strong { color: var(--accent); }
+  .callout-info {
+    background: var(--gold-light);
+    border-color: var(--gold);
+  }
+  .callout-info strong { color: #8a6520; }
+  .callout-success {
+    background: var(--green-light);
+    border-color: var(--green);
+  }
+  .callout-success strong { color: var(--green); }
+
+  /* ---- OUTCOMES GRID ---- */
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .outcome-card {
+    background: var(--warm-white);
+    border: 1px solid var(--section-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.3rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .outcome-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+  }
+  .outcome-card .outcome-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .outcome-card h3 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+    color: var(--accent);
+  }
+  .outcome-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0; }
+
+  /* ---- ASSIGNMENTS ---- */
+  .assignment-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+  .assignment-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--warm-white);
+    border: 1px solid var(--section-border);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+  }
+  .assignment-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.1rem;
+  }
+  .assignment-item h3 { margin-top: 0; font-size: 1rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .assignment-item p { font-size: 0.88rem; color: var(--muted); margin-bottom: 0; }
+
+  /* ---- GRADING ---- */
+  .grading-highlight {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 1.5rem 1.6rem;
+    margin: 1.25rem 0;
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .grading-highlight strong { color: var(--gold); font-style: normal; }
+
+  /* ---- SUPPORT SERVICES ---- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .service-card {
+    background: var(--warm-white);
+    border: 1px solid var(--section-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.3rem;
+  }
+  .service-card h3 { font-size: 0.95rem; color: var(--green); margin-top: 0; margin-bottom: 0.5rem; }
+  .service-card p { font-size: 0.87rem; color: var(--muted); }
+  .service-card a { font-size: 0.85rem; }
+
+  /* ---- PUPPY ---- */
+  .puppy-box {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    background: var(--warm-white);
+    border: 2px dashed var(--section-border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  .puppy-emoji { font-size: 3.5rem; flex-shrink: 0; }
+  .puppy-box h3 { font-size: 1rem; margin-top: 0; color: var(--ink); }
+  .puppy-box p { font-size: 0.9rem; color: var(--muted); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    border-top: 1px solid var(--section-border);
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 540px) {
+    nav a { font-size: 0.74rem; padding: 0.75rem 0.6rem; }
+    .puppy-box { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header role="banner">
+  <p class="header-tag">UC Davis · Summer Quarter 2025 · Section 022</p>
+  <h1>UWP1: Introduction to <span>Academic Literacies</span></h1>
+  <p class="header-sub">Professor Osorio &nbsp;·&nbsp; Room 312 Voorhies Hall</p>
+</header>
+
+<nav aria-label="Page sections">
+  <ul role="list">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="#policies">Policies</a></li>
+    <li><a href="#grading">Grading</a></li>
+    <li><a href="#assignments">Assignments</a></li>
+    <li><a href="#support">Support</a></li>
+    <li><a href="#intro">Meet Prof. O</a></li>
+  </ul>
+</nav>
+
+<main id="main-content">
+
+  <!-- OVERVIEW -->
+  <section id="overview" aria-labelledby="overview-heading">
+    <h2 id="overview-heading"><span class="icon" aria-hidden="true">📋</span> Course Overview</h2>
+
+    <p>Welcome to UWP1! The goals of this course are to help you become a more confident and flexible reader and writer, to improve your reading and writing processes, and to prepare you for the reading and writing you'll encounter throughout your time at UC Davis.</p>
+
+    <div class="info-grid" role="list" aria-label="Course logistics">
+      <div class="info-card" role="listitem">
+        <div class="label">Instructor</div>
+        <div class="value">Professor Osorio (Prof. O)<br>
+          <a href="mailto:slosorio@ucdavis.edu">slosorio@ucdavis.edu</a>
+        </div>
+      </div>
+      <div class="info-card" role="listitem">
+        <div class="label">Location</div>
+        <div class="value">Teaching &amp; Learning Complex<br>Room 2213</div>
+      </div>
+      <div class="info-card" role="listitem">
+        <div class="label">Meeting Times</div>
+        <div class="value">Tue &amp; Thu in-person · 4:10–6:00 pm</div>
+      </div>
+      <div class="info-card" role="listitem">
+        <div class="label">Office Hours</div>
+        <div class="value">TBD &amp; by appointment<br>
+          <span style="font-size:0.85rem;color:var(--muted)">English &amp; Spanish</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-warning" role="note" aria-label="AI Policy">
+      <strong>⚠️ AI Policy:</strong> You are encouraged to use AI responsibly for scaffolding and grammar help. However, submitting an assignment written by AI will result in a failing grade and referral to OSSJA.
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section id="outcomes" aria-labelledby="outcomes-heading">
+    <h2 id="outcomes-heading"><span class="icon" aria-hidden="true">🎯</span> Learning Outcomes</h2>
+
+    <p>UWP1 learning outcomes are grounded in the Council of Writing Program Administrators Outcomes Statement for First-Year Composition. They focus on five areas:</p>
+
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon" aria-hidden="true">🗣️</div>
+        <h3>Rhetorical Concepts</h3>
+        <p>Understand audience, purpose, context, mode, genre, discourse community, revision, and editing — and how your grasp of these evolves.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" aria-hidden="true">✍️</div>
+        <h3>Reading &amp; Writing Processes</h3>
+        <p>Practice reading, researching, and composing as social, recursive processes. Revise based on peer and instructor feedback across multiple drafts.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" aria-hidden="true">📏</div>
+        <h3>Knowledge of Conventions</h3>
+        <p>Explore form, language, and format expectations across discourse communities — connecting your home communities to academic, civic, and professional ones.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" aria-hidden="true">🔍</div>
+        <h3>Research</h3>
+        <p>Collect and analyze data, engage prior knowledge, and make new meaning by working with and across sources and communities.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" aria-hidden="true">🪞</div>
+        <h3>Metacognition</h3>
+        <p>Reflect on your rhetorical choices, composing processes, and your growth as a writer to build lasting confidence and skills.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-info" role="note">
+      <strong>Note:</strong> Activities include class discussions, reading response journals, an extended research project, and reflective process memos. University policy requires <strong>6,000 words</strong> of original work.
+    </div>
+  </section>
+
+  <!-- POLICIES -->
+  <section id="policies" aria-labelledby="policies-heading">
+    <h2 id="policies-heading"><span class="icon" aria-hidden="true">📜</span> Policies</h2>
+
+    <h3>Attendance &amp; Participation</h3>
+    <p>This is a workshop and discussion course — not a lecture course. Regular, active attendance is essential because much of the learning happens during classroom discussions and peer response workshops. <strong>Students who miss the first week will be dropped.</strong> Please bring your laptop and/or tablet to every class.</p>
+
+    <h3>Academic Integrity &amp; Citations</h3>
+    <p>The prerequisite for UWP 1 is completion of the Entry Level Writing Requirement (ELWR). You must earn a <strong>C- or higher</strong> to fulfill the lower-division writing requirement. We will discuss ethical citation throughout the course. Intentional plagiarism will be reported to SJA. See the <a href="http://sja.ucdavis.edu/files/cac.pdf">UC Davis Student Code of Conduct</a>.</p>
+
+    <h3>Writing Requirement</h3>
+    <p>More information about writing requirements: <a href="https://elw.ucdavis.edu/">elw.ucdavis.edu</a>.</p>
+
+    <h3>Incomplete Policy</h3>
+    <p>Incompletes are only granted for documented emergencies (serious illness, death in the family). Please reach out immediately if such a situation arises. If planning to take P/NP, consult your major advisor first.</p>
+
+    <div class="callout callout-success" role="note" aria-label="Diversity statement">
+      <strong>💚 Diversity &amp; Inclusion:</strong> This course is committed to a safe, intellectually challenging environment for all students regardless of race, ethnicity, documentation status, gender identity, sexual orientation, disability, language, or religion. Written accents, like spoken accents, do not represent intelligence and will not result in lower grades. Use of other languages is encouraged.
+    </div>
+
+    <p>If any aspect of this course creates barriers to your inclusion, please let Prof. O know as soon as possible. Students with learning differences are encouraged to connect with the <a href="http://sdc.ucdavis.edu/">Student Disability Center</a>.</p>
+  </section>
+
+  <!-- GRADING -->
+  <section id="grading" aria-labelledby="grading-heading">
+    <h2 id="grading-heading"><span class="icon" aria-hidden="true">⚖️</span> Grading</h2>
+
+    <p>This course uses <strong>contract grading</strong> — a model popular in writing studies that reduces the subjectivity of evaluating writing and focuses you on learning and hard work rather than trying to guess what the teacher wants.</p>
+
+    <p>In traditional grading you're judged on your final drafts. In contract grading, <strong>you're rewarded for your labor</strong>. A midterm contract grade update will be provided.</p>
+
+    <div class="grading-highlight" role="note">
+      "Your labor, your attitude, and your growth are as important as the quality of your final products. <strong>I want your grade to reflect the holistic you.</strong>"
+    </div>
+
+    <p>Grades are based on the grading contract criteria — not a curve or a set distribution. Full details will be shared in class and on Canvas.</p>
+  </section>
+
+  <!-- ASSIGNMENTS -->
+  <section id="assignments" aria-labelledby="assignments-heading">
+    <h2 id="assignments-heading"><span class="icon" aria-hidden="true">📝</span> Assignments</h2>
+
+    <div class="assignment-list">
+      <div class="assignment-item">
+        <div class="assignment-icon" aria-hidden="true">📖</div>
+        <div>
+          <h3>Course Readings</h3>
+          <p>All readings are on Canvas in various formats (PDFs, links, videos). Contact Prof. O if you need an alternate format.</p>
+        </div>
+      </div>
+      <div class="assignment-item">
+        <div class="assignment-icon" aria-hidden="true">💬</div>
+        <div>
+          <h3>Class Discussions</h3>
+          <p>Come to class having annotated the readings — underline key ideas, write questions in the margins. You can annotate digitally using PDF highlight/comment tools, Notability, or Goodnotes. Videos don't require annotation.</p>
+        </div>
+      </div>
+      <div class="assignment-item">
+        <div class="assignment-icon" aria-hidden="true">📅</div>
+        <div>
+          <h3>Weekend Reflection Homework</h3>
+          <p>Every Saturday, submit a <strong>150–300 word reflection</strong> based on a weekly prompt. These are low-stakes, exploratory posts — don't stress over grammar. Prof. O may share them to spark class discussions, so only write what you're comfortable sharing.</p>
+        </div>
+      </div>
+      <div class="assignment-item">
+        <div class="assignment-icon" aria-hidden="true">✍️</div>
+        <div>
+          <h3>One Major Writing Assignment <span style="font-size:0.78rem;background:var(--accent);color:white;padding:0.15rem 0.5rem;border-radius:20px;font-family:'DM Sans',sans-serif;font-style:normal;vertical-align:middle;margin-left:0.3rem;">Required to pass</span></h3>
+          <p>There is one major writing assignment. Some weekend reflections will feed into this final project. Full details will be discussed in class and posted to Canvas.</p>
+        </div>
+      </div>
+      <div class="assignment-item">
+        <div class="assignment-icon" aria-hidden="true">💻</div>
+        <div>
+          <h3>Digital Project <span style="font-size:0.78rem;background:var(--gold);color:var(--ink);padding:0.15rem 0.5rem;border-radius:20px;font-family:'DM Sans',sans-serif;font-style:normal;vertical-align:middle;margin-left:0.3rem;">Required for an A</span></h3>
+          <p>A digital transformation of your major writing assignment. Students who complete the digital project are eligible for an A in the course. Details to be shared in class.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section id="support" aria-labelledby="support-heading">
+    <h2 id="support-heading"><span class="icon" aria-hidden="true">🤝</span> Support Services</h2>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Student Academic Success Center (SASC)</h3>
+        <p>Writing tutors and specialists work one-on-one and in small groups from brainstorming through drafting. The Writing Studio (University House Annex) is open Mon–Thu, 12–7 pm.</p>
+        <a href="https://tutoring.ucdavis.edu/writing">tutoring.ucdavis.edu/writing</a><br>
+        <small style="color:var(--muted);">📞 530-752-2013 · 2205 Dutton Hall</small>
+      </div>
+      <div class="service-card">
+        <h3>Student Disability Center (SDC)</h3>
+        <p>Professional disability specialists support students with learning, vision, hearing, medical, psychological, and mobility differences. Provide documentation as soon as possible.</p>
+        <a href="http://sdc.ucdavis.edu/">sdc.ucdavis.edu</a>
+      </div>
+      <div class="service-card">
+        <h3>Additional Resources</h3>
+        <p>Student Support Resources, mental health services, Canvas guides, and more.</p>
+        <a href="https://ebeler.faculty.ucdavis.edu/resources/faq-student-resources/">UC Davis Student Resources</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section id="intro" aria-labelledby="intro-heading">
+    <h2 id="intro-heading"><span class="icon" aria-hidden="true">🐾</span> Meet Prof. O &amp; Puppy</h2>
+
+    <div class="puppy-box" role="note" aria-label="Classroom dog notice">
+      <div class="puppy-emoji" aria-hidden="true">🐕</div>
+      <div>
+        <h3>Puppy Diana (aka "Puppy") — Working Dog</h3>
+        <p>Puppy will be joining us in class. You're welcome to say hi, but please don't call her over for pets — she's trained to stay focused on Prof. O. If she wanders your way and seems interested in a pet, go right ahead!</p>
+        <p style="font-size:0.84rem;margin-top:0.5rem;color:var(--muted);">"I have a short snout so I often grunt — I'm never growling!"</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <p>UWP1: Introduction to Academic Literacies &nbsp;·&nbsp; Spring Quarter 2026 &nbsp;·&nbsp; UC Davis</p>
+  <p s
